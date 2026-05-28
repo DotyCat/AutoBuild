@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd openwrt || exit 1
+
 sed -i 's/192.168.1.1/192.168.1.1/g' package/base-files/files/bin/config_generate
 sed -i "s/hostname='.*'/hostname='DOTYWRT'/g" package/base-files/files/bin/config_generate
 
@@ -9,7 +11,27 @@ rm -rf feeds/luci/applications/luci-app-argon-config
 rm -rf feeds/luci/themes/luci-theme-argon
 rm -rf feeds/luci/applications/luci-app-passwall
 rm -rf feeds/luci/applications/luci-app-openclash
-rm -rf feeds/packages/net/{xray-core,v2ray-geodata,sing-box,chinadns-ng,dns2socks,hysteria,ipt2socks,microsocks,naiveproxy,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,tcping,trojan-plus,tuic-client,v2ray-plugin,xray-plugin,geoview,shadow-tls}
+
+rm -rf feeds/packages/net/xray-core
+rm -rf feeds/packages/net/v2ray-geodata
+rm -rf feeds/packages/net/sing-box
+rm -rf feeds/packages/net/chinadns-ng
+rm -rf feeds/packages/net/dns2socks
+rm -rf feeds/packages/net/hysteria
+rm -rf feeds/packages/net/ipt2socks
+rm -rf feeds/packages/net/microsocks
+rm -rf feeds/packages/net/naiveproxy
+rm -rf feeds/packages/net/shadowsocks-libev
+rm -rf feeds/packages/net/shadowsocks-rust
+rm -rf feeds/packages/net/shadowsocksr-libev
+rm -rf feeds/packages/net/simple-obfs
+rm -rf feeds/packages/net/tcping
+rm -rf feeds/packages/net/trojan-plus
+rm -rf feeds/packages/net/tuic-client
+rm -rf feeds/packages/net/v2ray-plugin
+rm -rf feeds/packages/net/xray-plugin
+rm -rf feeds/packages/net/geoview
+rm -rf feeds/packages/net/shadow-tls
 
 git clone --depth=1 https://github.com/Openwrt-Passwall/openwrt-passwall-packages package/passwall-packages
 git clone --depth=1 https://github.com/Openwrt-Passwall/openwrt-passwall package/luci-app-passwall
@@ -24,6 +46,9 @@ git clone --depth=1 https://github.com/DotyCat/luci-app-netstat.git package/luci
 git clone --depth=1 https://github.com/DotyCat/luci-app-xraycustom.git package/luci-app-xraycustom
 git clone --depth=1 https://github.com/DotyCat/luci-app-aw1k-led.git package/luci-app-aw1k-led
 
-echo "baidu.com"  > package/luci-app-passwall/luci-app-passwall/root/usr/share/passwall/rules/chnlist
+mkdir -p package/luci-app-passwall/luci-app-passwall/root/usr/share/passwall/rules
+
+echo "baidu.com" > \
+package/luci-app-passwall/luci-app-passwall/root/usr/share/passwall/rules/chnlist
 
 ./scripts/feeds install -a
