@@ -119,7 +119,10 @@ jobs:
           sed -i 's/[[:space:]]*$//' .config
 
           make defconfig
-
+     - name: Device Ceck
+       id: device
+       run: |
+        cd openwrt
           echo "========== SELECTED DEVICE =========="
           grep '^CONFIG_TARGET_DEVICE_.*=y' .config || true
           echo "===================================="
