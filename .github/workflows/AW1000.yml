@@ -1,8 +1,3 @@
-device da betul kenapa masi exit?
-
-CONFIG_TARGET_qualcommax_ipq807x_DEVICE_arcadyan_aw1000=y
-
-
 name: Build AW1000
 
 on:
@@ -82,7 +77,6 @@ jobs:
           echo "status=success" >> "$GITHUB_OUTPUT"
 
       - name: Clone source code
-        id: codes
         run: |
           echo "Building ${REPO_BRANCH}"
           git clone --depth 1 "$REPO_URL" -b "$REPO_BRANCH" openwrt
@@ -121,43 +115,36 @@ jobs:
           cp -f "${CONFIG_FILE}" openwrt/.config
 
           cd openwrt
-
           sed -i 's/[[:space:]]*$//' .config
-
           make defconfig
 
       - name: Verify AW1000 Target
-        id: device_check
         run: |
           cd openwrt
 
           echo "========== SELECTED DEVICE =========="
-          grep '^CONFIG_TARGET_DEVICE_.*=y' .config || true
+          grep '^CONFIG_TARGET_.*DEVICE_.*=y' .config || true
           echo "===================================="
 
-          DEVICE="$(grep '^CONFIG_TARGET_DEVICE_.*=y' .config | sed 's/CONFIG_TARGET_DEVICE_//;s/=y//' || true)"
+          DEVICE_LINE="$(grep '^CONFIG_TARGET_.*DEVICE_.*=y' .config || true)"
 
-          echo "Detected device: ${DEVICE}"
-
-          if [ -z "${DEVICE}" ]; then
+          if [ -z "${DEVICE_LINE}" ]; then
             echo "ERROR: No target device detected in .config"
-            cat .config
             exit 1
           fi
 
-          if ! echo "${DEVICE}" | grep -q "${EXPECTED_DEVICE}"; then
+          if echo "${DEVICE_LINE}" | grep -q "${EXPECTED_DEVICE}=y"; then
+            echo "AW1000 target verified."
+          else
             echo ""
             echo "ERROR: Wrong target detected!"
-            echo "Expected: ${EXPECTED_DEVICE}"
-            echo "Detected: ${DEVICE}"
-            cat .config
+            echo "Expected: CONFIG_TARGET_qualcommax_ipq807x_DEVICE_${EXPECTED_DEVICE}=y"
+            echo "Detected:"
+            echo "${DEVICE_LINE}"
             exit 1
           fi
 
-          echo "AW1000 target verified."
-
       - name: Download packages
-        id: package
         run: |
           cd openwrt
           make download -j$(nproc)
