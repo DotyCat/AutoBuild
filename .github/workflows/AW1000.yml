@@ -136,6 +136,7 @@ jobs:
 
           if [ -z "${DEVICE}" ]; then
             echo "ERROR: No target device detected in .config"
+            cat .config
             exit 1
           fi
 
@@ -144,6 +145,7 @@ jobs:
             echo "ERROR: Wrong target detected!"
             echo "Expected: ${EXPECTED_DEVICE}"
             echo "Detected: ${DEVICE}"
+            cat .config
             exit 1
           fi
 
