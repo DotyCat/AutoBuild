@@ -14,7 +14,6 @@ rm -rf feeds/luci/applications/luci-app-openclash
 
 rm -rf feeds/packages/net/xray-core
 rm -rf feeds/packages/net/v2ray-geodata
-rm -rf feeds/packages/net/sing-box
 rm -rf feeds/packages/net/chinadns-ng
 rm -rf feeds/packages/net/dns2socks
 rm -rf feeds/packages/net/hysteria
@@ -30,7 +29,6 @@ rm -rf feeds/packages/net/trojan-plus
 rm -rf feeds/packages/net/tuic-client
 rm -rf feeds/packages/net/v2ray-plugin
 rm -rf feeds/packages/net/xray-plugin
-rm -rf feeds/packages/net/geoview
 rm -rf feeds/packages/net/shadow-tls
 
 git clone --depth=1 https://github.com/DotyCat/passwall.git package/passwall
