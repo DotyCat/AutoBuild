@@ -45,4 +45,7 @@ mkdir -p package/luci-app-passwall/luci-app-passwall/root/usr/share/passwall/rul
 echo "baidu.com" > \
 package/luci-app-passwall/luci-app-passwall/root/usr/share/passwall/rules/chnlist
 
+sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/g' feeds/packages/lang/rust/Makefile
+grep -n "llvm.download-ci-llvm" feeds/packages/lang/rust/Makefile
+
 ./scripts/feeds install -a
